@@ -20,7 +20,7 @@ namespace CRUD.Controllers
         {
             var employee = await _context.Employees.ToListAsync();
 
-            const int pageSize = 1;
+            const int pageSize = 5;
             if (page < 1)
                 page = 1;
 
