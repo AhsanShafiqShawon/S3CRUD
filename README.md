@@ -1,1 +1,1 @@
-# S3CRUD
+## Simple CRUD with server side pagination
