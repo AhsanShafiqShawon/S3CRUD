@@ -9,16 +9,30 @@ namespace CRUD.Controllers
     public class EmployeesController : Controller
     {
         private readonly CrudDbContext _context;
+
         public EmployeesController(CrudDbContext context)
         {
             _context = context;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
             var employee = await _context.Employees.ToListAsync();
-            return View(employee);
+
+            const int pageSize = 1;
+            if (page < 1)
+                page = 1;
+
+            int recordsCount = employee.Count();
+            var pager = new Pager(recordsCount, page, pageSize);
+            int recordSkip = (page - 1) * pageSize;
+            var data = employee.Skip(recordSkip).Take(pager.PageSize).ToList();
+            this.ViewBag.Pager = pager;
+
+            return View(data);
+
+            //return View(employee);
         }
 
         [HttpGet]
